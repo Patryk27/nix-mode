@@ -10,11 +10,11 @@
 
 ;; Provides an eshell-aware `nix' command[1].
 ;;
-;; Using this module causes `nix develop' and `nix shell' to extend the current
+;; Using this package causes `nix develop' and `nix shell' to extend the current
 ;; eshell session instead of spawning an external shell; other Nix commands get
 ;; passed-through.
 ;;
-;; This module also advices `eshell/exit' so that if a Nix shell is currently
+;; This package also advices `eshell/exit' so that if a Nix shell is currently
 ;; active, it gets deactivated first and only the next call to `exit' actually
 ;; closes eshell. Note that exiting restores the previous working directory as
 ;; well - you can customize that with `nix-command-eshell-exit-behavior'.
@@ -27,7 +27,7 @@
 ;; ... will bring both `netris' and `gcc' into scope - you'll have to invoke
 ;; `exit' twice to go back to your original shell then.
 ;;
-;; When enabling this module, it is recommended that you extend your prompt to
+;; When enabling this package, it is recommended that you extend your prompt to
 ;; check `nix-command-eshell-active-p' so that you know whether you're inside a
 ;; Nix shell or not, like:
 ;;
@@ -37,7 +37,7 @@
 ;;        (if (nix-command-eshell-active-p) " | nix" "")
 ;;        " "))
 ;;
-;; This module is compatible with `eat' and `envrc'.
+;; This package is compatible with `eat' and `envrc'.
 ;;
 ;; Finally, if any of the functionalities provided here malfunctions, remember
 ;; that you can always use `*' to avoid going through `eshell/nix' - that is,
