@@ -107,15 +107,27 @@ simulates an actual subshell better, but can be also annoying for some people."
            :name "nix"
            :buffer (current-buffer)
            :command command
-           :filter 'eshell-interactive-process-filter
+           :filter 'nix-command-eshell--filter
            :sentinel 'nix-command-eshell--sentinel)))
     (process-put proc 'temp-file temp-file)
     (eshell-record-process-object proc)
     (eshell-record-process-properties proc)
     (throw 'eshell-external proc)))
 
+(defun nix-command-eshell--filter (proc output)
+  (if (fboundp 'eshell-interactive-process-filter)
+      ;; For Emacs >= 30
+      (eshell-interactive-process-filter proc output))
+  ;; For Emacs < 30
+  (eshell-insertion-filter proc output))
+
 (defun nix-command-eshell--sentinel (proc status)
-  (let ((cmd (car (eshell-commands-for-process proc)))
+  (let ((cmd
+         (if (fboundp 'eshell-commands-for-process)
+             ;; For Emacs >= 30
+             (car (eshell-commands-for-process proc))
+           ;; For Emacs < 30
+           t))
         (buffer (process-buffer proc))
         (temp-file (process-get proc 'temp-file)))
     (when (and cmd
